@@ -31,12 +31,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,23 +58,26 @@ import com.example.appproductos.dialogs.AlertaExito
 import com.example.appproductos.model.Producto
 import com.example.appproductos.navigation.ListaProductos
 import com.example.appproductos.viewmodels.ProductoViewModel
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @Composable
 fun FormView(navController: NavController, viewModel: ProductoViewModel) {
+    val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { innerPadding ->
-        BodyForm(navController, viewModel)
+        BodyForm(navController, viewModel, snackbarHostState)
     }
 }
 
 
 @Composable
-fun BodyForm(navController: NavController, viewModel: ProductoViewModel) {
-
+fun BodyForm(navController: NavController, viewModel: ProductoViewModel, snackbarHostState: SnackbarHostState) {
+    val coroutineScope = rememberCoroutineScope()
     var name by remember { mutableStateOf("") }
     var price by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
@@ -158,7 +165,13 @@ fun BodyForm(navController: NavController, viewModel: ProductoViewModel) {
                 Button(
                     onClick = {
                         viewModel.addProduct(Producto(nombre = name, descripcion = description, precio = price.toInt(), fecha = date))
-                        showSuccessDialog = true},
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar("Producto agregado exitosamente")
+                            navController.navigate(ListaProductos)
+
+                        }
+
+                              },
                     modifier = Modifier.weight(1f),
                     colors = ButtonColors(
                         containerColor = Color(0xFF2A442D),

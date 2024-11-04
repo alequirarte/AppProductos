@@ -30,12 +30,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,23 +55,26 @@ import com.example.appproductos.dialogs.AlertaEdit
 import com.example.appproductos.model.Producto
 import com.example.appproductos.navigation.ListaProductos
 import com.example.appproductos.viewmodels.ProductoViewModel
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @Composable
 fun EditView(productId: Int, navController: NavController, viewModel: ProductoViewModel) {
+    val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { innerPadding ->
-        BodyEdit(producto = viewModel.getProductById(productId), navController, viewModel)
+        BodyEdit(producto = viewModel.getProductById(productId), navController, viewModel, snackbarHostState)
     }
 }
 
 
 @Composable
-fun BodyEdit(producto: Producto?, navController: NavController, viewModel: ProductoViewModel) {
-
+fun BodyEdit(producto: Producto?, navController: NavController, viewModel: ProductoViewModel, snackbarHostState: SnackbarHostState) {
+    val coroutineScope = rememberCoroutineScope()
     var name by remember { mutableStateOf(producto?.nombre ?: "") }
     var price by remember { mutableStateOf(producto?.precio.toString() ?: "") }
     var description by remember { mutableStateOf(producto?.descripcion ?: "") }
@@ -78,7 +84,7 @@ fun BodyEdit(producto: Producto?, navController: NavController, viewModel: Produ
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF4B662C)) // Fondo principal
+            .background(Color(0xFF1A4D2E)) // Fondo principal
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top // Espaciado entre elementos
@@ -155,10 +161,15 @@ fun BodyEdit(producto: Producto?, navController: NavController, viewModel: Produ
                 Button(
                     onClick = {
                         viewModel.updateProduct(Producto(id = producto?.id!!, nombre = name, descripcion = description, precio = price.toInt(), fecha = date))
-                        showSuccessDialog = true },
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar("Producto editado exitosamente")
+                            navController.navigate(ListaProductos)
+
+                        }
+                              },
                     modifier = Modifier.weight(1f),
                     colors = ButtonColors(
-                        containerColor = Color(0xFF314A12),
+                        containerColor = Color(0xFF2A442D),
                         contentColor = Color.White,
                         disabledContentColor = Color.LightGray,
                         disabledContainerColor = Color.LightGray
@@ -173,7 +184,7 @@ fun BodyEdit(producto: Producto?, navController: NavController, viewModel: Produ
                     onClick = { navController.navigate(ListaProductos) },
                     modifier = Modifier.weight(1f),
                     colors = ButtonColors(
-                        containerColor = Color(0xFF314A12),
+                        containerColor = Color(0xFF2A442D),
                         contentColor = Color.White,
                         disabledContentColor = Color.LightGray,
                         disabledContainerColor = Color.LightGray

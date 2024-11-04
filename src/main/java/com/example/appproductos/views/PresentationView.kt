@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -56,7 +57,7 @@ fun PresentationView(navController: NavController) {
 fun BodyPresentation(navController: NavController) {
     Column(
         modifier = Modifier
-            .background(Color(0xFFFFFFFF))
+            .background(Color(0xFF1A4D2E))
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
@@ -73,7 +74,8 @@ fun BodyPresentation(navController: NavController) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack,
                 contentDescription = "Back",
-                tint = Color(0xFF1A4D2E) // Color de la flecha
+                tint = Color(0xFFF5EFE6), // Color de la flecha
+                modifier = Modifier.size(27.dp)
             )
         }
 
@@ -94,7 +96,7 @@ fun BodyPresentation(navController: NavController) {
                     .clip(RoundedCornerShape(120.dp))
                     .border(
                         width = 2.dp,
-                        color = Color(0xFF4B662C),
+                        color = Color(0xFFF5EFE6),
                         shape = RoundedCornerShape(120.dp)
                     )
             )
@@ -106,7 +108,7 @@ fun BodyPresentation(navController: NavController) {
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 fontSize = 25.sp,
-                color = Color(0xFF4B662C)
+                color = Color(0xFFF5EFE6)
             )
 
             Spacer(modifier = Modifier.height(5.dp))
@@ -116,14 +118,14 @@ fun BodyPresentation(navController: NavController) {
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
-                color = Color(0xFF576249)
+                color = Color(0xFFCFD8CB)
             )
 
             Spacer(modifier = Modifier.height(50.dp))
 
             Row(
                 modifier = Modifier
-                    .background(Color(0xFFDBE7C8), RoundedCornerShape(50.dp))
+                    .background(Color(0xFFE8DFCA), RoundedCornerShape(50.dp))
                     .padding(16.dp)
             ) {
                 Image(
@@ -136,7 +138,7 @@ fun BodyPresentation(navController: NavController) {
                     text = "  +52 622 103 9867",
                     textAlign = TextAlign.Center,
                     fontSize = 22.sp,
-                    color = Color(0xFF4B662C)
+                    color = Color(0xFF1A4D2E)
                 )
             }
 
@@ -144,7 +146,7 @@ fun BodyPresentation(navController: NavController) {
 
             Row(
                 modifier = Modifier
-                    .background(Color(0xFFDBE7C8), RoundedCornerShape(50.dp))
+                    .background(Color(0xFFE8DFCA), RoundedCornerShape(50.dp))
                     .padding(16.dp)
             ) {
                 Image(
@@ -157,7 +159,7 @@ fun BodyPresentation(navController: NavController) {
                     text = "  @alequirarte",
                     textAlign = TextAlign.Center,
                     fontSize = 22.sp,
-                    color = Color(0xFF4B662C)
+                    color = Color(0xFF1A4D2E)
                 )
             }
 
@@ -165,7 +167,7 @@ fun BodyPresentation(navController: NavController) {
 
             Row(
                 modifier = Modifier
-                    .background(Color(0xFFDBE7C8), RoundedCornerShape(50.dp))
+                    .background(Color(0xFFE8DFCA), RoundedCornerShape(50.dp))
                     .padding(16.dp)
             ) {
                 Image(
@@ -178,7 +180,7 @@ fun BodyPresentation(navController: NavController) {
                     text = "  alequirarteh@gmail.com",
                     textAlign = TextAlign.Center,
                     fontSize = 22.sp,
-                    color = Color(0xFF4B662C)
+                    color = Color(0xFF1A4D2E)
                 )
             }
 
